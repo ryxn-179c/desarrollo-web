@@ -1,60 +1,73 @@
 <template>
-    <title>Inicio de Sesión</title>
-    <div class="login-container">
-      <div class="login-box">
-        <h1>Inicia Sesión</h1>
-        <form @submit.prevent="handleLogin">
-          <div class="input-group">
-            <label for="username">Nombre de Usuario</label>
-            <input type="text" id="username" v-model="username" placeholder="Ingresa tu usuario" required />
+  <div class="login-container">
+    <div class="login-box">
+      <h1>Inicia Sesión</h1>
+      <form @submit.prevent="handleLogin">
+        <div class="input-group">
+          <label for="email">Correo Electrónico</label>
+          <input type="email" id="email" v-model="email" placeholder="Ingresa tu correo" required />
+        </div>
+        <div class="input-group">
+          <label for="password">Contraseña</label>
+          <div class="password-input">
+            <input
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              v-model="password"
+              placeholder="Ingresa tu contraseña"
+              required
+            />
+            <span class="toggle-password" @click="toggleShowPassword">
+              {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+            </span>
           </div>
-          <div class="input-group">
-            <label for="password">Contraseña</label>
-            <div class="password-input">
-              <input
-                :type="showPassword ? 'text' : 'password'"
-                id="password"
-                v-model="password"
-                placeholder="Ingresa tu contraseña"
-                required
-              />
-              <span class="toggle-password" @click="toggleShowPassword">
-                {{ showPassword ? '👁️' : '👁️‍🗨️' }}
-              </span>
-            </div>
-          </div>
-          <button type="submit">Iniciar Sesión</button>
-          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-        </form>
-      </div>
+        </div>
+        <button type="submit">Iniciar Sesión</button>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+      </form>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'LoginForm',
-    data() {
-      return {
-        username: '',
-        password: '',
-        errorMessage: '',
-        showPassword: false, // Estado para controlar si la contraseña es visible
-      };
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'LoginForm',
+  data() {
+    return {
+      email: '',
+      password: '',
+      errorMessage: '',
+      showPassword: false,
+    };
+  },
+  methods: {
+    handleLogin() {
+      // Validar si el correo pertenece a los dominios permitidos
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|uttt\.edu\.mx)$/;
+
+      // Validar si la contraseña tiene al menos 8 caracteres y un número
+      const passwordRegex = /^(?=.*\d)[A-Za-z\d]{8,}$/;
+
+      if (!emailRegex.test(this.email)) {
+        this.errorMessage = "Correo no permitido. Usa @gmail.com, @hotmail.com o @uttt.edu.mx.";
+        return;
+      }
+
+      if (!passwordRegex.test(this.password)) {
+        this.errorMessage = "La contraseña debe tener al menos 8 caracteres y un número.";
+        return;
+      }
+
+      // Si pasa las validaciones, redirige a Home
+      this.$router.push('/home');
     },
-    methods: {
-      handleLogin() {
-        if (this.username === 'admin' && this.password === 'admin') {
-          this.$router.push('/home');
-        } else {
-          this.errorMessage = 'Usuario o contraseña incorrectos.';
-        }
-      },
-      toggleShowPassword() {
-        this.showPassword = !this.showPassword; // Cambia el estado de visibilidad
-      },
+    toggleShowPassword() {
+      this.showPassword = !this.showPassword;
     },
-  };
-  </script>
+  },
+};
+</script>
+
   
   <style scoped>
   /* Animación del fondo */
