@@ -10,23 +10,26 @@
       <!-- Fondo oscuro cuando el menú está abierto -->
       <div v-if="menuAbierto" class="overlay" @click="menuAbierto = false"></div>
   
-      <!-- Menú lateral -->
-      <aside class="menu-lateral" :class="{ abierto: menuAbierto }">
-        <button class="cerrar-menu" @click="menuAbierto = false">✖</button>
-        <ul>
-          <li><router-link to="/inicio">Inicio</router-link></li>
-          <li><router-link to="/empleados">Empleados</router-link></li>
-          <li><router-link to="/almacen">Almacén</router-link></li>
-          <li><router-link to="/produccion">Producción</router-link></li>
-          <li><router-link to="/configuraciones">Configuraciones</router-link></li>
-          <li><router-link to="/ventas">Ventas</router-link></li>
-          <li><router-link to="/inventario">Inventario</router-link></li>
-          <li><router-link to="/reportes">Reportes</router-link></li>
-          <li><router-link to="/clientes">Clientes</router-link></li>
-          <li><router-link to="/sucursales">Sucursales</router-link></li>
-          <li><router-link to="/perfil">Perfil</router-link></li>
-        </ul>
-      </aside>
+      <!-- Botón de cerrar fuera del menú -->
+<button class="cerrar-menu" v-if="menuAbierto" @click="menuAbierto = false">✖</button>
+
+<!-- Menú lateral -->
+<aside class="menu-lateral" :class="{ abierto: menuAbierto }">
+  <ul>
+    <li><router-link to="/inicio">Inicio</router-link></li>
+    <li><router-link to="/empleados">Empleados</router-link></li>
+    <li><router-link to="/almacen">Almacén</router-link></li>
+    <li><router-link to="/produccion">Producción</router-link></li>
+    <li><router-link to="/configuraciones">Configuraciones</router-link></li>
+    <li><router-link to="/ventas">Ventas</router-link></li>
+    <li><router-link to="/inventario">Inventario</router-link></li>
+    <li><router-link to="/reportes">Reportes</router-link></li>
+    <li><router-link to="/clientes">Clientes</router-link></li>
+    <li><router-link to="/sucursales">Sucursales</router-link></li>
+    <li><router-link to="/perfil">Perfil</router-link></li>
+  </ul>
+</aside>
+
   
       <!-- Carousel -->
       <div class="carousel">
@@ -118,9 +121,24 @@
   .menu-lateral a:hover {
     background: #444;
   }
+
+  .cerrar-menu {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1002; /* Para asegurarse de que esté por encima del menú */
+}
+
   /***** Carousel *****/
   .carousel {
-    margin: 75px auto;
+    margin: 54px auto;
     position: relative;
     width: 100%;
     height: 450px;
